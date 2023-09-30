@@ -3,7 +3,7 @@ import React from 'react';
 function MainPage({ Tasks, Update, activeGroup }) {
 
     const deleteTask = async (id) => {
-        const res = await fetch("https://mytasksapi.onrender.com/tasks/" + id, {
+        const res = await fetch("/api/tasks/" + id, {
             method: "DELETE"
         })
         Update()

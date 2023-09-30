@@ -13,7 +13,7 @@ const Modal = ({ isOpen, onClose, Update }) => {
     const handleSubmit = async () => {
         const data = { title, body: content, state, group }
         console.log(data)
-        const res = await fetch("https://mytasksapi.onrender.com/tasks", {
+        const res = await fetch("/api/tasks", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
