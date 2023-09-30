@@ -10,7 +10,7 @@ function MainPage({ Tasks, Update, activeGroup }) {
     }
 
     const changeTask = async (id, state) => {
-        const res = await fetch(`https://mytasksapi.onrender.com/tasks/${id}/${state}`,
+        const res = await fetch(`/api/tasks/${id}/${state}`,
             { method: "PATCH" }
         )
         Update()
