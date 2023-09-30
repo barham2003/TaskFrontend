@@ -4,7 +4,7 @@ import './index.css'
 import Navbar from './components/navbar';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { findDOMNode } from 'react-dom';
+
 
 
 
@@ -19,7 +19,7 @@ function App() {
 
   // Fetching Data
   const fetchData = async () => {
-    const resGroup = await fetch("/api/groups")
+    const resGroup = await fetch("https://mytasksapi.onrender.com/groups")
     if (resGroup.ok) {
       const json = await resGroup.json()
       setGroups(json)
@@ -28,7 +28,7 @@ function App() {
 
     }
 
-    const resTask = await fetch("/api/tasks")
+    const resTask = await fetch("https://mytasksapi.onrender.com/tasks")
     if (resTask.ok) {
       const json = await resTask.json()
       setTasks(json)
@@ -42,7 +42,7 @@ function App() {
 
   // Creating Group
   const postGroup = async () => {
-    const res = await fetch("/api/groups", {
+    const res = await fetch("https://mytasksapi.onrender.com/groups", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -60,7 +60,7 @@ function App() {
 
   //Deleting Group
   const DeleteGroup = async (id) => {
-    const res = await fetch("/api/groups/" + id, {
+    const res = await fetch("https://mytasksapi.onrender.com/groups/" + id, {
       method: "DELETE",
     })
 
