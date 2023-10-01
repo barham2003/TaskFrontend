@@ -53,6 +53,7 @@ function App() {
       const json = await res.json()
       setEMessage(true)
       setMessageBody(json.message)
+      return
     }
     fetchData()
   }
@@ -68,6 +69,7 @@ function App() {
       const json = await res.json()
       setEMessage(true)
       setMessageBody(json.message)
+      return
     }
 
     if (res.ok) {
