@@ -4,6 +4,7 @@ import './index.css'
 import Navbar from './components/navbar';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useReducer } from 'react';
 
 
 
@@ -11,43 +12,117 @@ import { useState } from 'react';
 function App() {
   // States
   const [groupName, setGroupName] = useState("")
-  const [tasks, setTasks] = useState([])
-  const [groups, setGroups] = useState([])
+  const [initTasks, setInitTasks] = useState([])
   const [eMessage, setEMessage] = useState(false)
   const [messageBody, setMessageBody] = useState("")
   const [activeGroup, setActiveGroup] = useState("")
 
   // Fetching Data
   const fetchData = async () => {
-    const resGroup = await fetch("https://mytasksapi.onrender.com/groups")
+    // const fetchData = async () => {
+    const resGroup = await fetch("/api/groups")
     if (resGroup.ok) {
       const json = await resGroup.json()
-      setGroups(json)
-
       setActiveGroup("main")
-
+      dispatchG({ type: "FETCH", payload: json })
     }
 
-    const resTask = await fetch("https://mytasksapi.onrender.com/tasks")
+    const resTask = await fetch("/api/tasks")
     if (resTask.ok) {
       const json = await resTask.json()
-      setTasks(json)
+      // Set the data in UseReducer
+      setInitTasks(json)
+      dispatch({ type: "FETCH", payload: json })
     }
 
   }
 
+
+
   useEffect(() => {
-    fetchData("main")
+    fetchData()
   }, [])
+
+
+
+
+
+
+  // The Render Function for Tasks 
+  const taskReducer = (state, action) => {
+    switch (action.type) {
+      case 'FETCH':
+        return { tasks: action.payload };
+      case 'REMOVE':
+        const removeTask = state.tasks.filter(item => item._id !== action.payload)
+        return { tasks: removeTask };
+      case 'ADD':
+        fetchData()
+        return { tasks: [...state.tasks, action.payload] };
+      case 'CHANGE':
+        const updatedTasks = state.tasks
+          .map(item => {
+            if (item._id === action.payload.id) return { ...item, state: action.payload.state }
+            return item;
+          })
+        return { tasks: updatedTasks };
+
+      case 'FILTER':
+        const filteredTasks = [...initTasks].filter(item => item.group.name === action.payload)
+        setActiveGroup(action.payload)
+        return { tasks: filteredTasks }
+      case 'MAIN':
+        fetchData()
+        setActiveGroup("main")
+        return { tasks: [...initTasks] }
+      default:
+        return state;
+    }
+  };
+
+  //The UseReducer Creator for Tasks
+  const [taskContainer, dispatch] = useReducer(taskReducer, { tasks: [] });
+
+  // Render Before Everything
+
+
+
+
+  // The useReducer Function for Groups
+  const groupReducer = (state, action) => {
+    switch (action.type) {
+      case "FETCH":
+        return { groups: action.payload }
+
+      case "ADD":
+        return { groups: [...state.groups, action.payload] }
+
+      case "REMOVE":
+        const removeGroup = state.groups.filter(item => item._id !== action.payload)
+        return { groups: removeGroup }
+    }
+
+  }
+
+  // The useReducer Creator for Groups
+  const [groupContainer, dispatchG] = useReducer(groupReducer, { groups: [] })
+  const groups = groupContainer.groups
+
 
   // Creating Group
   const postGroup = async () => {
-    const res = await fetch("https://mytasksapi.onrender.com/groups", {
+    const res = await fetch("/api/groups", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       }, body: JSON.stringify({ name: groupName })
     })
+
+
+    if (res.ok) {
+      const json = await res.json()
+      dispatchG({ type: "ADD", payload: json })
+    }
 
     if (!res.ok) {
       const json = await res.json()
@@ -55,13 +130,13 @@ function App() {
       setMessageBody(json.message)
       return
     }
-    fetchData()
   }
+
 
 
   //Deleting Group
   const DeleteGroup = async (id) => {
-    const res = await fetch("https://mytasksapi.onrender.com/groups/" + id, {
+    const res = await fetch("/api/groups/" + id, {
       method: "DELETE",
     })
 
@@ -74,8 +149,8 @@ function App() {
 
     if (res.ok) {
       setEMessage(false)
+      dispatchG({ type: "REMOVE", payload: id })
     }
-    fetchData()
 
   }
 
@@ -86,27 +161,29 @@ function App() {
 
 
   // Setting Group
-  const setGroup = (tasks, name) => {
-    setTasks(tasks)
-    setActiveGroup(name)
+  const setGroup = (name) => {
+    if (name === "main") return dispatch({ type: "MAIN" })
+    dispatch({ type: "FILTER", payload: name })
   }
+
+
 
 
 
 
   return (
     <div className="layout bg-slate-900 h-screen selection:bg-slate-600 relative">
-      <Navbar Update={fetchData} eMessage={eMessage} changeMessage={changeMessage} messageBody={messageBody} />
+      <Navbar dispatch={dispatch} eMessage={eMessage} changeMessage={changeMessage} messageBody={messageBody} />
 
       <section className='sidebar bg-slate-800 shadow-sm text-white border-r border-gray-700 flex flex-col justify-center gap-y-8 items-center'>
 
-        <div className={`w-72 h-20 bg-slate-900 rounded-lg flex justify-center items-center flex-col pt-2 hover:bg-slate-950 active:border-2 active:border-indigo-800 ${activeGroup === "main" ? "bg-slate-950 border-indigo-800 border-2" : ""}`} onClick={() => fetchData("main")} >
+        <div className={`w-72 h-20 bg-slate-900 rounded-lg flex justify-center items-center flex-col pt-2 hover:bg-slate-950 active:border-2 active:border-indigo-800 ${activeGroup === "main" ? "bg-slate-950 border-indigo-800 border-2" : ""}`} onClick={() => setGroup("main")} >
           <h1 className="text-xl" >Main</h1>
 
         </div>
         {groups && groups.map(group => {
           return (
-            <div className={`w-72 h-20 bg-slate-900 rounded-lg flex justify-center items-center flex-col pt-2 hover:bg-slate-950 active:border-2 active:border-indigo-800 ${activeGroup === group.name ? "bg-slate-950 border-indigo-800 border-2" : ""} `} onClick={() => setGroup(group.tasks, group.name)}>
+            <div className={`w-72 h-20 bg-slate-900 rounded-lg flex justify-center items-center flex-col pt-2 hover:bg-slate-950 active:border-2 active:border-indigo-800 ${activeGroup === group.name ? "bg-slate-950 border-indigo-800 border-2" : ""} `} onClick={() => setGroup(group.name)}>
               <h1 className="text-xl" >{group.name}</h1>
               <small className="text-gray-400">{group.tasks.length === 1 ? "1 Task" : group.tasks.length + " Tasks"}</small>
               <button className="mb-1 text-xs font-semibold" onClick={() => { DeleteGroup(group._id) }}>Delete</button>
@@ -122,7 +199,7 @@ function App() {
 
 
       <main className="main gap-x-8 p-14 mx-20">
-        <MainPage Tasks={tasks} Update={fetchData} activeGroup={activeGroup} />
+        <MainPage tasks={taskContainer.tasks} dispatch={dispatch} activeGroup={activeGroup} />
       </main>
     </div>
   )
