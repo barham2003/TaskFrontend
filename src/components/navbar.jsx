@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Modal from "./modal";
 
-function Navbar({ Tasks, Update, eMessage, changeMessage, messageBody }) {
+function Navbar({ dispatch, eMessage, changeMessage, messageBody }) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
-    const onClose = () => {
+    const Close = () => {
         setIsModalOpen(!isModalOpen)
     }
 
@@ -23,8 +23,8 @@ function Navbar({ Tasks, Update, eMessage, changeMessage, messageBody }) {
             </div>}
 
             <div>
-                <button className="text-sm bg-indigo-700 text-white p-3 rounded-3xl px-6 font-bold hover:bg-indigo-800 hover:shadow-lg active:bg-white  active:text-indigo-700 transition-colors delay-50" onClick={onClose}>+Add New Task</button>
-                <Modal isOpen={isModalOpen} onClose={onClose} Tasks={Tasks} Update={Update} />
+                <button className="text-sm bg-indigo-700 text-white p-3 rounded-3xl px-6 font-bold hover:bg-indigo-800 hover:shadow-lg active:bg-white  active:text-indigo-700 transition-colors delay-50" onClick={Close}>+Add New Task</button>
+                <Modal isOpen={isModalOpen} dispatch={dispatch} Close={Close} />
             </div>
         </nav>
     )

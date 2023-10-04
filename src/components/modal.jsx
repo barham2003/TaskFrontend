@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 
-const Modal = ({ isOpen, onClose, Update }) => {
+const Modal = ({ dispatch, isOpen, Close }) => {
 
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
@@ -12,7 +12,6 @@ const Modal = ({ isOpen, onClose, Update }) => {
 
     const handleSubmit = async () => {
         const data = { title, body: content, state, group }
-        console.log(data)
         const res = await fetch("/api/tasks", {
             method: "POST",
             headers: {
@@ -23,9 +22,8 @@ const Modal = ({ isOpen, onClose, Update }) => {
 
         if (res.ok) {
             const json = await res.json()
-
-            onClose()
-            Update()
+            Close()
+            dispatch({ type: "ADD", payload: json })
             setTitle("")
             setContent("")
             setGroup("")
@@ -79,7 +77,7 @@ const Modal = ({ isOpen, onClose, Update }) => {
 
                     <button
                         className="modal-close-btn absolute top-0 right-0 p-3 "
-                        onClick={onClose}>
+                        onClick={Close}>
 
                         <svg
                             className="fill-current text-gray-500"
