@@ -10,17 +10,24 @@ function MainPage({ activeGroup, tasks, dispatch }) {
     }, [])
 
     const deleteTask = async (id) => {
-        const res = await fetch("/api/tasks/" + id, {
+        dispatch({ type: "REMOVE", payload: id })
+        const res = await fetch("https://mytasksapi.onrender.com/tasks/" + id, {
             method: "DELETE"
         })
-        dispatch({ type: "REMOVE", payload: id })
+        if (res.ok) {
+            const json = await res.json()
+            console.log(json)
+        }
     }
 
     const changeTask = async (id, state) => {
-        const res = await fetch(`/api/tasks/${id}/${state}`,
+        dispatch({ type: "CHANGE", payload: { id, state } })
+        const res = await fetch(`https://mytasksapi.onrender.com/tasks/${id}/${state}`,
             { method: "PATCH" }
         )
-        dispatch({ type: "CHANGE", payload: { id, state } })
+        if (res.ok) {
+            const json = await res.json()
+        }
     }
 
 

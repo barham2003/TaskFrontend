@@ -20,14 +20,14 @@ function App() {
   // Fetching Data
   const fetchData = async () => {
     // const fetchData = async () => {
-    const resGroup = await fetch("/api/groups")
+    const resGroup = await fetch("https://mytasksapi.onrender.com/groups")
     if (resGroup.ok) {
       const json = await resGroup.json()
       setActiveGroup("main")
       dispatchG({ type: "FETCH", payload: json })
     }
 
-    const resTask = await fetch("/api/tasks")
+    const resTask = await fetch("https://mytasksapi.onrender.com/tasks")
     if (resTask.ok) {
       const json = await resTask.json()
       // Set the data in UseReducer
@@ -98,10 +98,14 @@ function App() {
         return { groups: [...state.groups, action.payload] }
 
       case "REMOVE":
-        const removeGroup = state.groups.filter(item => item._id !== action.payload)
+        console.log("FROM REDUCER: ", action.payload)
+        if (action.payload.tasks.length > 0) return state
+        const removeGroup = state.groups.filter(item => item._id !== action.payload._id)
         return { groups: removeGroup }
-    }
 
+      default:
+        return state
+    }
   }
 
   // The useReducer Creator for Groups
@@ -111,7 +115,8 @@ function App() {
 
   // Creating Group
   const postGroup = async () => {
-    const res = await fetch("/api/groups", {
+    dispatchG({ type: "ADD", payload: { name: groupName, tasks: [], createdAt: Date.now() } })
+    const res = await fetch("https://mytasksapi.onrender.com/groups", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -120,8 +125,7 @@ function App() {
 
 
     if (res.ok) {
-      const json = await res.json()
-      dispatchG({ type: "ADD", payload: json })
+      fetchData()
     }
 
     if (!res.ok) {
@@ -135,8 +139,9 @@ function App() {
 
 
   //Deleting Group
-  const DeleteGroup = async (id) => {
-    const res = await fetch("/api/groups/" + id, {
+  const DeleteGroup = async (group) => {
+    dispatchG({ type: "REMOVE", payload: group })
+    const res = await fetch("https://mytasksapi.onrender.com/groups/" + group._id, {
       method: "DELETE",
     })
 
@@ -149,7 +154,6 @@ function App() {
 
     if (res.ok) {
       setEMessage(false)
-      dispatchG({ type: "REMOVE", payload: id })
     }
 
   }
@@ -186,7 +190,7 @@ function App() {
             <div className={`w-72 h-20 bg-slate-900 rounded-lg flex justify-center items-center flex-col pt-2 hover:bg-slate-950 active:border-2 active:border-indigo-800 ${activeGroup === group.name ? "bg-slate-950 border-indigo-800 border-2" : ""} `} onClick={() => setGroup(group.name)}>
               <h1 className="text-xl" >{group.name}</h1>
               <small className="text-gray-400">{group.tasks.length === 1 ? "1 Task" : group.tasks.length + " Tasks"}</small>
-              <button className="mb-1 text-xs font-semibold" onClick={() => { DeleteGroup(group._id) }}>Delete</button>
+              <button className="mb-1 text-xs font-semibold" onClick={() => { DeleteGroup(group) }}>Delete</button>
             </div>
           )
         })}
