@@ -20,14 +20,14 @@ function App() {
 
   // Fetching Data
   const fetchData = async () => {
-    const resGroup = await fetch("/api/groups")
+    const resGroup = await fetch("https://mytasksapi.onrender.com/groups")
     if (resGroup.ok) {
       const json = await resGroup.json()
       setActiveGroup("main")
       dispatchG({ type: "FETCH", payload: json })
     }
 
-    const resTask = await fetch("/api/tasks")
+    const resTask = await fetch("https://mytasksapi.onrender.com/tasks")
     if (resTask.ok) {
       const json = await resTask.json()
       // Set the data in UseReducer
@@ -58,7 +58,7 @@ function App() {
         return { tasks: removeTask };
       case 'ADD':
         fetchData()
-        return { tasks: [...state.tasks, action.payload] };
+        return { tasks: [action.payload, ...state.tasks] };
       case 'CHANGE':
         const updatedTasks = state.tasks
           .map(item => {
@@ -121,7 +121,7 @@ function App() {
     if (groupName && !groupArray.includes(groupName)) {
       dispatchG({ type: "ADD", payload: { name: groupName, tasks: [], createdAt: Date.now() } })
     }
-    const res = await fetch("/api/groups", {
+    const res = await fetch("https://mytasksapi.onrender.com/groups", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -151,7 +151,7 @@ function App() {
   const DeleteGroup = async (group) => {
     dispatchG({ type: "REMOVE", payload: group })
     setGroup("main")
-    const res = await fetch("/api/groups/" + group.name, {
+    const res = await fetch("https://mytasksapi.onrender.com/groups/" + group.name, {
       method: "DELETE",
     })
 
