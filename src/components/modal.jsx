@@ -61,10 +61,10 @@ const Modal = ({ dispatch, isOpen, Close }) => {
                         <div className="flex flex-col gap-y-4">
                             <input type="text" id="title" value={title} className="rounded-sm font-bold pl-1 text-gray-900" onChange={(e) => { setTitle(e.target.value) }} />
                             <input type="text" id="content" value={content} className="rounded-sm font-bold pl-1 text-gray-900" onChange={(e) => { setContent(e.target.value) }} />
-                            <select name="state" id="state" className="rounded-sm font-bold pl-1 text-gray-900">
-                                <option value="todo" onClick={() => { setState("todo") }} onSelect={() => { setState("todo") }}>Todo </option>
-                                <option value="doing" onClick={() => { setState("doing") }} onSelect={() => { setState("doing") }}>Doing </option>
-                                <option value="done" onClick={() => { setState("done") }} onSelect={() => { setState("done") }}>Done </option>
+                            <select name="state" id="state" className="rounded-sm font-bold pl-1 text-gray-900" onChange={(e) => setState(e.target.value)}>
+                                <option value="todo" >Todo </option>
+                                <option value="doing" >Doing </option>
+                                <option value="done" >Done </option>
                             </select>
                             <input type="text" id="groop" value={group} className="rounded-sm font-bold pl-1 text-gray-900" onChange={(e) => { setGroup(e.target.value) }} />
 
