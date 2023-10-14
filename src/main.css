@@ -27,3 +27,23 @@
 }
 
 /* Track */
+
+/* src/App.css */
+.component-enter {
+    opacity: 0;
+  }
+  
+  .component-enter-active {
+    opacity: 1;
+    transition: opacity 500ms;
+  }
+  
+  .component-exit {
+    opacity: 1;
+  }
+  
+  .component-exit-active {
+    opacity: 0;
+    transition: opacity 0ms;
+  }
+  
