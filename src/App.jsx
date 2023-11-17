@@ -65,7 +65,15 @@ function NewModal({ onAdd, onClose }) {
 
 	function handleOnSubmit() {
 		const newTask = { title, body: desc, group, state }
-		if (!title || !desc || !group || !state) return console.log("Error")
+		if (
+			!title ||
+			!desc ||
+			!group ||
+			!state ||
+			title === "Main" ||
+			title === "main"
+		)
+			return console.log("Error")
 		onAdd(newTask)
 	}
 	return (
@@ -299,12 +307,12 @@ function App() {
 
 	async function handleOnDelete(id) {
 		await fetch(`/api/tasks/${id}`, { method: "DELETE", headers })
-		setInitTasks([...initTasks.filter(tasks => tasks.id !== id)])
+		setInitTasks([...initTasks?.filter(tasks => tasks.id !== id)])
 	}
 
 	async function handleOnChange(id, state) {
 		setInitTasks([
-			...initTasks.map(task => (task.id === id ? { ...task, state } : task)),
+			...initTasks?.map(task => (task.id === id ? { ...task, state } : task)),
 		])
 		await fetch(`/api/tasks/${id}`, {
 			method: "PATCH",
