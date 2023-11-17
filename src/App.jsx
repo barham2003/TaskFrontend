@@ -144,7 +144,7 @@ function AuthModal({ onLogin }) {
 	async function sign() {
 		if (!username || !password) return setError("Fill All Fields")
 		const user = { username: username, password: password }
-		const res = await fetch("/api/auth/login", {
+		const res = await fetch("/https://mytasksapi.onrender.com/auth/login", {
 			...options,
 			body: JSON.stringify(user),
 		})
@@ -171,7 +171,7 @@ function AuthModal({ onLogin }) {
 			passwordConfirm: confirmPassword,
 		}
 
-		const res = await fetch("/api/auth/signup", {
+		const res = await fetch("/https://mytasksapi.onrender.com/auth/signup", {
 			...options,
 			body: JSON.stringify(user),
 		})
@@ -298,7 +298,10 @@ function App() {
 	}
 
 	async function handleOnDelete(id) {
-		await fetch(`/api/tasks/${id}`, { method: "DELETE", headers })
+		await fetch(`/https://mytasksapi.onrender.com/tasks/${id}`, {
+			method: "DELETE",
+			headers,
+		})
 		setInitTasks([...initTasks.filter(tasks => tasks.id !== id)])
 	}
 
@@ -306,7 +309,7 @@ function App() {
 		setInitTasks([
 			...initTasks.map(task => (task.id === id ? { ...task, state } : task)),
 		])
-		await fetch(`/api/tasks/${id}`, {
+		await fetch(`/https://mytasksapi.onrender.com/tasks/${id}`, {
 			method: "PATCH",
 			headers,
 			body: JSON.stringify({ state }),
@@ -318,7 +321,7 @@ function App() {
 	}
 
 	async function handleOnAdd(newTask) {
-		const res = await fetch("/api/tasks", {
+		const res = await fetch("/https://mytasksapi.onrender.com/tasks", {
 			method: "POST",
 			headers,
 			body: JSON.stringify(newTask),
@@ -333,7 +336,10 @@ function App() {
 		const initData = JSON.parse(localStorage?.getItem("data"))
 
 		const fetchData = async () => {
-			const res = await fetch("/api/tasks", { method: "GET", headers })
+			const res = await fetch("/https://mytasksapi.onrender.com/tasks", {
+				method: "GET",
+				headers,
+			})
 			const data = await res.json()
 			setInitTasks(data.data)
 		}
