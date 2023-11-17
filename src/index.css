@@ -31,7 +31,7 @@
 }
 
 .time-stamp {
-	@apply text-gray-400 opacity-80;
+	@apply text-gray-400;
 }
 
 .tasks-head {
@@ -67,4 +67,20 @@
 
 .buttons-container {
 	@apply flex gap-2;
+}
+
+.modal {
+	@apply md:h-3/4 h-3/4 w-5/6 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-slate-800 rounded-lg border-4 border-indigo-800 flex md:text-2xl  md:flex-row  flex-col  justify-around text-white p-4 font-bold;
+}
+
+.person {
+	@apply flex justify-center items-center bg-slate-900 px-4 rounded-2xl hover:-translate-y-1 hover:bg-indigo-500 transition-all delay-150;
+}
+
+.input {
+	@apply text-black pl-2 p-1;
+}
+
+.error {
+	@apply h-12 w-11/12 overflow-auto rounded-md bg-red-950 text-base flex justify-center items-center;
 }

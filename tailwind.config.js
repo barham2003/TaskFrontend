@@ -6,10 +6,13 @@ export default {
 			height: {
 				100: "35rem",
 			},
-		},
-		minWidth: {
-			"1/2": "50%",
-			full: "94%",
+			minWidth: {
+				"1/2": "50%",
+				full: "94%",
+			},
+			colors: {
+				new: "rgba(0, 0, 0, 0.538)",
+			},
 		},
 	},
 	plugins: [],
