@@ -386,12 +386,12 @@ function App() {
 							? "md:col-span-5 col-span-5"
 							: "md:col-span-5 col-span-5"
 					} `}>
-					<div className="flex flex-col justify-center items-center text-2xl">
-						Your Tasks
+					<div className="flex flex-col justify-center items-center text-lg">
+						Manage Tasks
 					</div>
 					<div className="buttons-container">
 						<button className="btn round-btn" onClick={setModal}>
-							+Add New Task
+							New Task
 						</button>
 						<span className="person cursor-pointer" onClick={handleLogout}>
 							{user?.name}
