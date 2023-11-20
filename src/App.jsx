@@ -1,4 +1,3 @@
-import "./index.css"
 import { useEffect } from "react"
 import { useState } from "react"
 import AuthModal from "./components/AuthModal"
@@ -7,6 +6,7 @@ import Nav from "./components/Nav"
 import Sidebar from "./components/Sidebar"
 import MainPage from "./components/MainPage"
 const states = ["todo", "doing", "done"]
+const apiUrl = "https://mytasksapi.onrender.com"
 
 function App() {
 	const [showSidebar, setShowSidebar] = useState(false)
@@ -34,6 +34,7 @@ function App() {
 	// 	},
 	// 	[authData]
 	// )
+
 	// Use Effect for Distinguishing Groups
 	useEffect(() => {
 		setDistinctCategories([...new Set(initTasks.map(task => task.group))])
@@ -48,11 +49,12 @@ function App() {
 	// Use Effect for getting data form storage or APi
 	useEffect(() => {
 		const fetchData = async () => {
-			const res = await fetch("https://mytasksapi.onrender.com/tasks", {
+			const res = await fetch(`${apiUrl}/tasks`, {
 				method: "GET",
 				headers,
 			})
 			const data = await res.json()
+			console.log(data)
 			setInitTasks(data.data)
 		}
 
@@ -61,7 +63,7 @@ function App() {
 
 	/////////////////////// Task Functions, CRUD /////////////////////////
 	async function handleOnDelete(id) {
-		await fetch(`https://mytasksapi.onrender.com/tasks/${id}`, {
+		await fetch(`${apiUrl}/tasks/${id}`, {
 			method: "DELETE",
 			headers,
 		})
@@ -72,7 +74,7 @@ function App() {
 		setInitTasks([
 			...initTasks.map(task => (task.id === id ? { ...task, state } : task)),
 		])
-		await fetch(`https://mytasksapi.onrender.com/tasks/${id}`, {
+		await fetch(`${apiUrl}/tasks/${id}`, {
 			method: "PATCH",
 			headers,
 			body: JSON.stringify({ state }),
@@ -80,7 +82,7 @@ function App() {
 	}
 
 	async function handleOnAdd(newTask) {
-		const res = await fetch("https://mytasksapi.onrender.com/tasks", {
+		const res = await fetch(`${apiUrl}/tasks`, {
 			method: "POST",
 			headers,
 			body: JSON.stringify(newTask),
@@ -110,11 +112,7 @@ function App() {
 	}
 
 	if (!token) {
-		return (
-			<div className=" app layout bg-slate-700">
-				<AuthModal onLogin={handleLogin} />
-			</div>
-		)
+		return <AuthModal onLogin={handleLogin} />
 	}
 	// ----------------- Auth Functions -----------------------
 
@@ -132,8 +130,8 @@ function App() {
 
 	return (
 		<>
-			<div className="app layout relative ">
-				{!token && <AuthModal />}
+			{/* {!token && <AuthModal />} */}
+			<div className="app layout relative">
 				{isNewOpen && <NewModal onAdd={handleOnAdd} onClose={setModal} />}
 
 				<SidebarButton

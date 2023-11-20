@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { useState } from "react"
+import Modal from "./Modal"
 
 export default function NewModal({ onAdd, onClose }) {
 	const [title, setTitle] = useState("")
@@ -13,57 +14,54 @@ export default function NewModal({ onAdd, onClose }) {
 		onAdd(newTask)
 	}
 	return (
-		<div className="absolute inset-0 bg-new ">
-			<div className="modal">
-				<div className="flex flex-col">
-					<h1 className="text-2xl mb-4">New Task</h1>
-					<label>Title</label>
-					<input
-						type="text"
-						className="input"
-						value={title}
-						onChange={e => setTitle(e.target.value)}
-					/>
+		<Modal title="New Task">
+			<div className="flex flex-col">
+				<label>Title</label>
+				<input
+					type="text"
+					className="input"
+					value={title}
+					onChange={e => setTitle(e.target.value)}
+				/>
 
-					<label>Description</label>
-					<input
-						type="text"
-						className="input"
-						value={desc}
-						onChange={e => setDesc(e.target.value)}
-					/>
+				<label>Description</label>
+				<input
+					type="text"
+					className="input"
+					value={desc}
+					onChange={e => setDesc(e.target.value)}
+				/>
 
-					<label>Category</label>
-					<input
-						type="text"
-						className="input"
-						value={group}
-						onChange={e => setCategory(e.target.value)}
-					/>
+				<label>Category</label>
+				<input
+					type="text"
+					className="input"
+					value={group}
+					onChange={e => setCategory(e.target.value)}
+				/>
 
-					<label>State</label>
-					<select
-						name="state"
-						className="select-input"
-						value={state}
-						onChange={e => setState(e.target.value)}>
-						<option value="todo">Todo</option>
-						<option value="doing">Doing</option>
-						<option value="done">Done</option>
-					</select>
+				<label>State</label>
+				<select
+					name="state"
+					className="select-input"
+					value={state}
+					onChange={e => setState(e.target.value)}>
+					<option value="todo">Todo</option>
+					<option value="doing">Doing</option>
+					<option value="done">Done</option>
+				</select>
 
-					<div className="my-4 flex gap-2">
-						<button className="btn round-btn text-lg" onClick={handleOnSubmit}>
-							+Add
-						</button>
-						<button
-							className="bg-gray-500 btn round-btn text-lg "
-							onClick={onClose}>
-							+Cancel
-						</button>
-					</div>
+				<div className="my-4 flex gap-2">
+					<button className="btn round-btn text-lg" onClick={handleOnSubmit}>
+						+Add
+					</button>
+					<button
+						className="bg-gray-500 btn round-btn text-lg "
+						onClick={onClose}>
+						+Cancel
+					</button>
 				</div>
 			</div>
-		</div>
+		</Modal>
 	)
 }

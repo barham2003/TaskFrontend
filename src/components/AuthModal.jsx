@@ -1,5 +1,5 @@
-import { useEffect } from "react"
 import { useState } from "react"
+const apiUrl = "https://mytasksapi.onrender.com"
 
 export default function AuthModal({ onLogin }) {
 	const [username, setUsername] = useState("")
@@ -21,7 +21,7 @@ export default function AuthModal({ onLogin }) {
 	async function sign() {
 		if (!username || !password) return setError("Fill All Fields")
 		const user = { username: username, password: password }
-		const res = await fetch("https://mytasksapi.onrender.com/auth/login", {
+		const res = await fetch(`${apiUrl}/auth/login`, {
 			...options,
 			body: JSON.stringify(user),
 		})
@@ -48,7 +48,7 @@ export default function AuthModal({ onLogin }) {
 			passwordConfirm: confirmPassword,
 		}
 
-		const res = await fetch("https://mytasksapi.onrender.com/auth/signup", {
+		const res = await fetch(`${apiUrl}/auth/signup`, {
 			...options,
 			body: JSON.stringify(user),
 		})
@@ -66,80 +66,77 @@ export default function AuthModal({ onLogin }) {
 	}
 
 	return (
-		<div className="absolute inset-0 bg-new ">
-			<div className="newmodal">
-				<div className="flex flex-col">
-					<h1 htmlFor="sign" className="text-2xl mb-4">
-						Sign
-					</h1>
-					<label htmlFor="username">Username</label>
-					<input
-						className="input"
-						type="text"
-						value={username}
-						onChange={e => setUsername(e.target.value)}
-					/>
-					<label htmlFor="password">Password</label>
-					<input
-						className="input"
-						type="password"
-						value={password}
-						onChange={e => setPassword(e.target.value)}
-					/>
-					<a className="text-xs my-2 text-gray-400">Forget Password?</a>
-					<div className="my-4">
-						<button className="btn round-btn text-lg" onClick={() => sign()}>
-							Sign in
-						</button>
-						{error && (
-							<div
-								className="error absolute top-0 left-0"
-								onClick={() => setError(null)}>
-								{error}
-							</div>
-						)}
-					</div>
+		<div className={`${error ? " pt-14" : ""} newmodal`}>
+			{error && (
+				<div
+					className="error absolute top-0 w-full left-0 md:left-1/4 md:top-16 md:w-1/2"
+					onClick={() => setError(null)}>
+					{error}
 				</div>
-				<div className="md:w-14"></div>
-				<div className="flex flex-col">
-					<h1 htmlFor="regester" className="text-2xl mb-4">
+			)}
+			<div className="flex flex-col">
+				<h1 htmlFor="sign" className="text-2xl mb-4">
+					Sign
+				</h1>
+				<label htmlFor="username">Username</label>
+				<input
+					className="input"
+					type="text"
+					value={username}
+					onChange={e => setUsername(e.target.value)}
+				/>
+				<label htmlFor="password">Password</label>
+				<input
+					className="input"
+					type="password"
+					value={password}
+					onChange={e => setPassword(e.target.value)}
+				/>
+				<a className="text-xs my-2 text-gray-400">Forget Password?</a>
+				<div className="my-4">
+					<button className="btn round-btn text-lg" onClick={() => sign()}>
+						Sign in
+					</button>
+				</div>
+			</div>
+			<div className="flex flex-col">
+				<h1 htmlFor="regester" className="text-2xl mb-4">
+					Register
+				</h1>
+				<label htmlFor="name">Name</label>
+				<input
+					type="text"
+					value={newName}
+					onChange={e => setNewName(e.target.value)}
+					className="input"
+				/>
+				<label htmlFor="username">Username</label>
+				<input
+					type="text"
+					value={newUsername}
+					onChange={e => setNewUsername(e.target.value)}
+					className="input"
+				/>
+				<label htmlFor="passowrd">Password</label>
+				<input
+					type="password"
+					value={newPassword}
+					onChange={e => {
+						setNewPassword(e.target.value)
+					}}
+					className="input"
+				/>
+				<label htmlFor="confirmPass">Confirm Password</label>
+				<input
+					type="password"
+					value={confirmPassword}
+					onChange={e => setCofirmPassword(e.target.value)}
+					className="input"
+				/>
+				<div className="my-4">
+					<button className="btn round-btn text-lg" onClick={() => signup()}>
 						Register
-					</h1>
-					<label htmlFor="name">Name</label>
-					<input
-						type="text"
-						value={newName}
-						onChange={e => setNewName(e.target.value)}
-						className="input"
-					/>
-					<label htmlFor="username">Username</label>
-					<input
-						type="text"
-						value={newUsername}
-						onChange={e => setNewUsername(e.target.value)}
-						className="input"
-					/>
-					<label htmlFor="passowrd">Password</label>
-					<input
-						type="password"
-						value={newPassword}
-						onChange={e => {
-							setNewPassword(e.target.value)
-						}}
-						className="input"
-					/>
-					<label htmlFor="confirmPass">Confirm Password</label>
-					<input
-						type="password"
-						value={confirmPassword}
-						onChange={e => setCofirmPassword(e.target.value)}
-						className="input"
-					/>
-					<div className="my-4">
-						<button className="btn round-btn text-lg" onClick={() => signup()}>
-							Register
-						</button>
-					</div>
+					</button>
 				</div>
 			</div>
 		</div>

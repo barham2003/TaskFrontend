@@ -13,7 +13,12 @@ export default function TasksContainer({ tasks, state, onDelete, onChange }) {
 
 	return (
 		<div className="tasks-container">
-			<div className="tasks-head ">{state}</div>
+			<div
+				className={`tasks-head ${
+					stateTasks.length < 1 && " hidden md:block"
+				}  `}>
+				{state}
+			</div>
 			<div className="tasks-list ">
 				{stateTasks?.map(task => (
 					<Task
