@@ -100,6 +100,18 @@ export default function AuthModal({ onLogin }) {
 					</div>
 				</div>
 				<div className="flex flex-col">
+					<script
+						async
+						src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8431198708688672"
+						crossorigin="anonymous"></script>
+					<ins
+						class="adsbygoogle"
+						style="display:block"
+						data-ad-client="ca-pub-8431198708688672"
+						data-ad-slot="9065996910"
+						data-ad-format="auto"
+						data-full-width-responsive="true"></ins>
+					<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 					<h1 htmlFor="regester" className="text-2xl mb-4">
 						Register
 					</h1>
