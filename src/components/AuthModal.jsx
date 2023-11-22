@@ -55,7 +55,6 @@ export default function AuthModal({ onLogin }) {
 
 		const data = await res.json()
 
-		console.log(res)
 		if (res.ok) {
 			onLogin(data)
 		}

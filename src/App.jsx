@@ -5,6 +5,7 @@ import NewModal from "./components/NewModal"
 import Nav from "./components/Nav"
 import Sidebar from "./components/Sidebar"
 import MainPage from "./components/MainPage"
+import useLocalStorage from "./customHooks/useLocalStorage"
 const states = ["todo", "doing", "done"]
 const apiUrl = "https://mytasksapi.onrender.com"
 
@@ -15,10 +16,7 @@ function App() {
 	const [distinctCategories, setDistinctCategories] = useState([])
 	const [activeGroup, setGroup] = useState("Main")
 	const [isNewOpen, setIsNewOpen] = useState(false)
-	const [authData, setAuthData] = useState(function () {
-		const storedData = JSON.parse(localStorage.getItem("data"))
-		return storedData
-	})
+	const [authData, setAuthData] = useLocalStorage({}, "data")
 	const token = authData?.token
 	const user = authData?.user
 	const headers = new Headers({
