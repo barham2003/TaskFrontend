@@ -106,7 +106,7 @@ export default function AuthModal({ onLogin }) {
 						crossorigin="anonymous"></script>
 					<ins
 						class="adsbygoogle"
-						style="display:block"
+						style={{ display: "block" }}
 						data-ad-client="ca-pub-8431198708688672"
 						data-ad-slot="9065996910"
 						data-ad-format="auto"
