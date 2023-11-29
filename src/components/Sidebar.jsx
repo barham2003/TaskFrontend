@@ -1,10 +1,14 @@
-export default function Sidebar({
-	distinctCategories,
-	activeGroup,
-	handleSetGroup,
-	showSidebar,
-	initTasks,
-}) {
+import { useTasks } from "../Context/TasksContext"
+
+export default function Sidebar({ showSidebar }) {
+	const {
+		tasks,
+		categories,
+		selected: activeGroup,
+		handleFilter,
+		dispatch,
+	} = useTasks()
+
 	return (
 		<div
 			className={`sidebar ${
@@ -12,22 +16,22 @@ export default function Sidebar({
 			}  `}>
 			<div className="stats">
 				<div className="nums">
-					Tasks Num: {initTasks.length} {"\n"}
-					Categories Num: {distinctCategories.length}
+					Tasks Num: {tasks.length} {"\n"}
+					Categories Num: {categories.length}
 				</div>
 			</div>
 			<div className="groups">
 				<div
 					className={`group ${activeGroup === "Main" && "select-group"}`}
-					onClick={() => handleSetGroup("Main")}>
+					onClick={() => dispatch({ type: "main" })}>
 					Main
 				</div>
-				{distinctCategories.map(group => {
+				{categories.map(group => {
 					return (
 						<div
 							key={group}
-							className={`group ${group === activeGroup && "select-group"}`}
-							onClick={() => handleSetGroup(group)}>
+							onClick={() => handleFilter(group)}
+							className={`group ${group === activeGroup && "select-group"}`}>
 							{group}
 						</div>
 					)

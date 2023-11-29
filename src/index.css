@@ -18,7 +18,7 @@
 }
 
 .sidebar {
-	@apply bg-slate-800 pr-6 flex-col justify-start gap-y-20 pt-20  border-r-2 border-slate-700;
+	@apply bg-slate-800 pr-6 flex-col justify-start gap-y-5 pt-20 pb-14 border-r-2 border-slate-700;
 }
 
 .main {
@@ -64,7 +64,7 @@
 }
 
 .groups {
-	@apply flex flex-col justify-center gap-y-2;
+	@apply flex flex-col justify-start gap-y-4 overflow-auto md:h-auto h-full pb-3;
 }
 
 .buttons-container {

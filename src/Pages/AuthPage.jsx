@@ -1,7 +1,10 @@
+import { useEffect } from "react"
 import { useState } from "react"
+import { useNavigate } from "react-router"
+import { useAuth } from "../Context/AuthContex"
 const apiUrl = "https://mytasksapi.onrender.com"
 
-export default function AuthModal({ onLogin }) {
+export default function AuthPage({}) {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
 
@@ -9,26 +12,30 @@ export default function AuthModal({ onLogin }) {
 	const [newName, setNewName] = useState("")
 	const [newPassword, setNewPassword] = useState("")
 	const [confirmPassword, setCofirmPassword] = useState("")
-	const [error, setError] = useState(null)
+
+	const { isAuthed, signup, login, error, dispatch } = useAuth()
 
 	async function handleSignIn() {
-		if (!username || !password) return setError("Fill All Fields")
-		const user = { username: username, password: password }
+		login(username, password)
 	}
 
 	async function handleSignUp() {
-		if (!newName || !newPassword || !confirmPassword || !newUsername)
-			return setError("Please fill or fields")
-		if (newPassword !== confirmPassword)
-			return setError("Password and confirm password are not the same")
-
 		const user = {
 			name: newName,
 			password: newPassword,
 			username: newUsername,
 			passwordConfirm: confirmPassword,
 		}
+		signup(newName, newUsername, newPassword, confirmPassword)
 	}
+	const navigate = useNavigate()
+
+	useEffect(
+		function () {
+			if (isAuthed) navigate("/main", { replace: true })
+		},
+		[isAuthed]
+	)
 
 	return (
 		<div className="h-screen">
@@ -36,7 +43,7 @@ export default function AuthModal({ onLogin }) {
 				{error && (
 					<div
 						className="error absolute top-0 w-full left-0 md:left-1/4 md:top-16 md:w-1/2"
-						onClick={() => setError(null)}>
+						onClick={() => dispatch({ type: "fail/close" })}>
 						{error}
 					</div>
 				)}

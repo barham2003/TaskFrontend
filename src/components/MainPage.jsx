@@ -1,12 +1,8 @@
+import { useTasks } from "../Context/TasksContext"
 import TasksContainer from "./TasksContainer"
+const states = ["todo", "doing", "done"]
 
-export default function MainPage({
-	showSidebar,
-	states,
-	handleOnDelete,
-	filteredTasks,
-	handleOnChange,
-}) {
+export default function MainPage({ showSidebar }) {
 	return (
 		<div
 			className={`main ${
@@ -14,13 +10,7 @@ export default function MainPage({
 			}  `}>
 			<div className="inner-main">
 				{states.map(state => (
-					<TasksContainer
-						key={state}
-						tasks={filteredTasks}
-						onDelete={handleOnDelete}
-						state={state}
-						onChange={handleOnChange}
-					/>
+					<TasksContainer key={state} state={state} />
 				))}
 			</div>
 		</div>

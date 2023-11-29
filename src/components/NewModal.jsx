@@ -1,8 +1,9 @@
-import { useEffect } from "react"
 import { useState } from "react"
+import { useTasks } from "../Context/TasksContext"
 import Modal from "./Modal"
 
-export default function NewModal({ onAdd, onClose }) {
+export default function NewModal({ onClose }) {
+	const { onAdd } = useTasks()
 	const [title, setTitle] = useState("")
 	const [desc, setDesc] = useState("")
 	const [group, setCategory] = useState("")
@@ -12,6 +13,7 @@ export default function NewModal({ onAdd, onClose }) {
 		const newTask = { title, body: desc, group, state }
 		if (!title || !desc || !group || !state) return console.log("Error")
 		onAdd(newTask)
+		onClose()
 	}
 	return (
 		<Modal title="New Task">

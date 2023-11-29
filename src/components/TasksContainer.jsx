@@ -1,14 +1,21 @@
 import Task from "./Task"
 import { useEffect } from "react"
 import { useState } from "react"
-export default function TasksContainer({ tasks, state, onDelete, onChange }) {
+import { useTasks } from "../Context/TasksContext"
+export default function TasksContainer({ state }) {
 	const [stateTasks, setStateTasks] = useState([])
+	const { tasks, selected, filteredTasks } = useTasks()
 
 	useEffect(
 		function () {
-			setStateTasks(tasks.filter(task => task.state === state))
+			if (selected === "Main") {
+				setStateTasks(tasks.filter(task => task.state === state))
+				return
+			}
+			if (selected !== "Main")
+				setStateTasks(filteredTasks.filter(task => task.state === state))
 		},
-		[state, tasks]
+		[state, tasks, selected, filteredTasks]
 	)
 
 	return (
@@ -21,12 +28,7 @@ export default function TasksContainer({ tasks, state, onDelete, onChange }) {
 			</div>
 			<div className="tasks-list ">
 				{stateTasks?.map(task => (
-					<Task
-						key={task.id}
-						task={task}
-						onDelete={onDelete}
-						onChange={onChange}
-					/>
+					<Task key={task.id} task={task} />
 				))}
 			</div>
 		</div>

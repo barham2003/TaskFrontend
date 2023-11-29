@@ -1,4 +1,8 @@
-export default function Nav({ setModal, handleLogout, showSidebar, user }) {
+import { useAuth } from "../Context/AuthContex"
+
+export default function Nav({ setModal, showSidebar, setAuthModal }) {
+	const { user, dispatch } = useAuth()
+
 	return (
 		<nav
 			className={`navbar  ${
@@ -11,7 +15,9 @@ export default function Nav({ setModal, handleLogout, showSidebar, user }) {
 				<button className="btn round-btn" onClick={setModal}>
 					New Task
 				</button>
-				<span className="person cursor-pointer" onClick={handleLogout}>
+				<span
+					className="person cursor-pointer"
+					onClick={() => setAuthModal(true)}>
 					{user?.name}
 				</span>
 			</div>
