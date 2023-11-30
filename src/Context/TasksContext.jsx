@@ -3,9 +3,7 @@ import { useContext } from "react"
 import { useState } from "react"
 import { useReducer } from "react"
 import { createContext } from "react"
-import { useNavigate } from "react-router"
 import { useAuth } from "./AuthContex"
-const states = ["todo", "doing", "done"]
 const apiUrl = "https://mytasksapi.onrender.com"
 
 const TaskContext = createContext()

@@ -1,5 +1,4 @@
 import { useState } from "react"
-const apiUrl = "https://mytasksapi.onrender.com"
 
 export default function AuthModal({ onLogin }) {
 	const [username, setUsername] = useState("")

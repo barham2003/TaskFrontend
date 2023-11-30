@@ -2,7 +2,6 @@ import { useEffect } from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useAuth } from "../Context/AuthContex"
-const apiUrl = "https://mytasksapi.onrender.com"
 
 export default function AuthPage({}) {
 	const [username, setUsername] = useState("")
