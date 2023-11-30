@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useReducer } from "react"
 import { createContext } from "react"
 import { useAuth } from "./AuthContex"
-const apiUrl = "https://mytasksapi.onrender.com"
+const apiUrl = "https://drab-seal-overalls.cyclic.app"
 
 const TaskContext = createContext()
 const intialState = {
