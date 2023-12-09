@@ -1,7 +1,7 @@
 import { useContext, useEffect, useReducer } from "react"
 import { createContext } from "react"
 const states = ["todo", "doing", "done"]
-const apiUrl = "https://drab-seal-overalls.cyclic.app"
+const apiUrl = "https://tame-ruby-springbok-tam.cyclic.app/"
 
 const initialState = {
 	user: null,
