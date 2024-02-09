@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useReducer } from "react";
 import { createContext } from "react";
 import { useAuth } from "./AuthContex";
-const apiUrl = "https://task-api-zdam.onrender.com/";
+const apiUrl = "https://task-api-zdam.onrender.com";
 
 const TaskContext = createContext();
 const intialState = {

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useReducer } from "react";
 import { createContext } from "react";
 const states = ["todo", "doing", "done"];
-const apiUrl = "https://task-api-zdam.onrender.com/";
+const apiUrl = "https://task-api-zdam.onrender.com";
 
 const initialState = {
   user: null,
